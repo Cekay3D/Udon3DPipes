@@ -2,7 +2,7 @@
 using UnityEngine;
 using VRC.SDK3.Data;
 
-public class Pipe1 : UdonSharpBehaviour
+public class Pipe : UdonSharpBehaviour
 {
     [SerializeField] State GlobalPipe;
 

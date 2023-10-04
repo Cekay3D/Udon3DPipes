@@ -6,13 +6,13 @@ using VRC.SDK3.Data;
 
 public class State : UdonSharpBehaviour
 {
-    [SerializeField] Pipe1 One;
-    [SerializeField] Pipe1 Two;
-    [SerializeField] Pipe1 Three;
-    [SerializeField] Pipe1 Four;
-    [SerializeField] Pipe1 Five;
-    [SerializeField] Pipe1 Six;
-    [SerializeField] Pipe1 Seven;
+    [SerializeField] Pipe One;
+    [SerializeField] Pipe Two;
+    [SerializeField] Pipe Three;
+    [SerializeField] Pipe Four;
+    [SerializeField] Pipe Five;
+    [SerializeField] Pipe Six;
+    [SerializeField] Pipe Seven;
 
     [SerializeField] Material[] Materials;
 
