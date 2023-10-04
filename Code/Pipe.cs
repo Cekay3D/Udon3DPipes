@@ -6,17 +6,18 @@ namespace Cekay.Pipes
 {
     public class Pipe : UdonSharpBehaviour
     {
-        [SerializeField] State GlobalPipe;
+        [SerializeField] private State GlobalPipe;
 
-        [SerializeField] Material[] Materials;
+        private Material ChosenColor;
 
-        [SerializeField] GameObject Straight;
-        [SerializeField] GameObject Bend;
-        [SerializeField] GameObject BendBall;
-        [SerializeField] GameObject Cap;
-        [SerializeField] GameObject End;
-        [SerializeField] GameObject ParentObject;
-        [SerializeField] Transform Parent;
+        private GameObject LastObject;
+        [SerializeField] private GameObject Straight;
+        [SerializeField] private GameObject Bend;
+        [SerializeField] private GameObject BendBall;
+        [SerializeField] private GameObject Cap;
+        [SerializeField] private GameObject End;
+        [SerializeField] private GameObject ParentObject;
+        [SerializeField] private Transform Parent;
 
         private DataList DirectionList = new DataList()
         {
@@ -27,10 +28,6 @@ namespace Cekay.Pipes
         (DataToken)4,
         (DataToken)5
         };
-
-        private Material ChosenColor;
-
-        private GameObject LastObject;
 
         private string LastPiece = "cap";
 
@@ -45,15 +42,15 @@ namespace Cekay.Pipes
         private Vector3 Index = new Vector3(0, 0, 0);
         private Vector3 IndexNew = new Vector3(0, 0, 0);
         private Vector3 IndexTemp = new Vector3(0, 0, 0);
-        private Vector3 GoLeft = new Vector3(0, 0, -90);
-        private Vector3 GoRight = new Vector3(0, 0, 90);
-        private Vector3 GoDown = new Vector3(0, 0, 0);
-        private Vector3 GoUp = new Vector3(0, 0, 180);
-        private Vector3 GoBackward = new Vector3(90, 0, 0);
-        private Vector3 GoForward = new Vector3(-90, 0, 0);
         private Vector3 CurrentDirectionVector = new Vector3(0, 0, 0);
         private Vector3 CurrentRotation = new Vector3(0, 0, 0);
         private Vector3 CurrentBendRotation = new Vector3(0, 0, 0);
+        private readonly Vector3 GoLeft = new Vector3(0, 0, -90);
+        private readonly Vector3 GoRight = new Vector3(0, 0, 90);
+        private readonly Vector3 GoDown = new Vector3(0, 0, 0);
+        private readonly Vector3 GoUp = new Vector3(0, 0, 180);
+        private readonly Vector3 GoBackward = new Vector3(90, 0, 0);
+        private readonly Vector3 GoForward = new Vector3(-90, 0, 0);
 
         public void GetIndex()
         {
@@ -65,8 +62,8 @@ namespace Cekay.Pipes
             MeshRenderer capMesh = Cap.GetComponent<MeshRenderer>();
             MeshRenderer endMesh = End.GetComponent<MeshRenderer>();
 
-            int randomColor = (Random.Range(0, Materials.Length));
-            ChosenColor = Materials[randomColor];
+            int randomColor = (Random.Range(0, GlobalPipe.Materials.Length));
+            ChosenColor = GlobalPipe.Materials[randomColor];
             straightMesh.material = ChosenColor;
             bendMesh.material = ChosenColor;
             bendBallMesh.material = ChosenColor;
@@ -128,9 +125,11 @@ namespace Cekay.Pipes
                     case "elbow":
                         pipePiece = "bend";
                         break;
+
                     case "ball":
                         pipePiece = "ball";
                         break;
+
                     case "mixed":
                         if ((Random.Range(0, 2)) == 0)
                         {
@@ -163,18 +162,23 @@ namespace Cekay.Pipes
                 case 0: // Left
                     IndexNew.x--;
                     break;
+
                 case 1: // Right
                     IndexNew.x++;
                     break;
+
                 case 2: // Down
                     IndexNew.y--;
                     break;
+
                 case 3: // Up
                     IndexNew.y++;
                     break;
+
                 case 4: // Backward
                     IndexNew.z--;
                     break;
+
                 case 5: // Forward
                     IndexNew.z++;
                     break;
@@ -231,7 +235,6 @@ namespace Cekay.Pipes
                     eC.enabled = GlobalPipe.IsColliding;
                     LastObject = pieceEnd;
                     break;
-
             }
         }
 
@@ -245,18 +248,23 @@ namespace Cekay.Pipes
                 case 0: // Left
                     DirectionListCopy.RemoveAll(1);
                     break;
+
                 case 1: // Right
                     DirectionListCopy.RemoveAll(0);
                     break;
+
                 case 2: // Down
                     DirectionListCopy.RemoveAll(3);
                     break;
+
                 case 3: // Up
                     DirectionListCopy.RemoveAll(2);
                     break;
+
                 case 4: // Backward
                     DirectionListCopy.RemoveAll(5);
                     break;
+
                 case 5: // Forward
                     DirectionListCopy.RemoveAll(4);
                     break;
@@ -307,22 +315,27 @@ namespace Cekay.Pipes
                     CurrentRotation = GoLeft;
                     CurrentDirectionVector = Vector3.left;
                     break;
+
                 case 1: // Right
                     CurrentRotation = GoRight;
                     CurrentDirectionVector = Vector3.right;
                     break;
+
                 case 2: // Down
                     CurrentRotation = GoDown;
                     CurrentDirectionVector = Vector3.down;
                     break;
+
                 case 3: // Up
                     CurrentRotation = GoUp;
                     CurrentDirectionVector = Vector3.up;
                     break;
+
                 case 4: // Backward
                     CurrentRotation = GoBackward;
                     CurrentDirectionVector = Vector3.back;
                     break;
+
                 case 5: // Forward
                     CurrentRotation = GoForward;
                     CurrentDirectionVector = Vector3.forward;
@@ -348,6 +361,7 @@ namespace Cekay.Pipes
                         CurrentBendRotation = new Vector3(90, 0, 90);
                     }
                     break;
+
                 case 1: // Right
                     if (CurrentDirection == 2)
                     {
@@ -366,6 +380,7 @@ namespace Cekay.Pipes
                         CurrentBendRotation = new Vector3(-90, 0, -90);
                     }
                     break;
+
                 case 2: // Down
                     if (CurrentDirection == 0)
                     {
@@ -384,6 +399,7 @@ namespace Cekay.Pipes
                         CurrentBendRotation = new Vector3(180, -90, 0);
                     }
                     break;
+
                 case 3: // Up
                     if (CurrentDirection == 0)
                     {
@@ -402,6 +418,7 @@ namespace Cekay.Pipes
                         CurrentBendRotation = new Vector3(0, -90, 0);
                     }
                     break;
+
                 case 4: // Backward
                     if (CurrentDirection == 0)
                     {
@@ -420,6 +437,7 @@ namespace Cekay.Pipes
                         CurrentBendRotation = new Vector3(180, -90, 0);
                     }
                     break;
+
                 case 5: // Forward
                     if (CurrentDirection == 0)
                     {

@@ -8,20 +8,20 @@ namespace Cekay.Pipes
 {
     public class State : UdonSharpBehaviour
     {
-        [SerializeField] Pipe One;
-        [SerializeField] Pipe Two;
-        [SerializeField] Pipe Three;
-        [SerializeField] Pipe Four;
-        [SerializeField] Pipe Five;
-        [SerializeField] Pipe Six;
-        [SerializeField] Pipe Seven;
+        [SerializeField] private Pipe One;
+        [SerializeField] private Pipe Two;
+        [SerializeField] private Pipe Three;
+        [SerializeField] private Pipe Four;
+        [SerializeField] private Pipe Five;
+        [SerializeField] private Pipe Six;
+        [SerializeField] private Pipe Seven;
 
-        [SerializeField] Material[] Materials;
+        public Material[] Materials;
 
-        [SerializeField] Slider SpeedSlider;
-        [SerializeField] Toggle SingleButton;
-        [SerializeField] Toggle MultipleButton;
-        [SerializeField] TextMeshProUGUI CollideText;
+        [SerializeField] private Slider SpeedSlider;
+        [SerializeField] private Toggle SingleButton;
+        [SerializeField] private Toggle MultipleButton;
+        [SerializeField] private TextMeshProUGUI CollideText;
 
         public DataList StateList = new DataList();
 
@@ -38,10 +38,10 @@ namespace Cekay.Pipes
         private bool WakeSeven = false;
 
         public int InitialPipes = 1;
-        public int GridX = 35;
-        public int GridY = 20;
-        public int GridZ = 35;
-        
+        public readonly int GridX = 35;
+        public readonly int GridY = 20;
+        public readonly int GridZ = 35;
+
         public float IntervalFade = .2f;
         private float FadeLevel = 1.0f;
         private float Interval = 0.1f;
@@ -54,7 +54,7 @@ namespace Cekay.Pipes
             StepAll();
         }
 
-        private void StartPipes()
+        public void StartPipes()
         {
             One.GetIndex();
             if (!DoSingle)
@@ -177,7 +177,6 @@ namespace Cekay.Pipes
                             WakeSeven = true;
                         }
                     }
-
                 }
 
                 if (DoSingle)
@@ -252,7 +251,7 @@ namespace Cekay.Pipes
 
             SetFade();
 
-            StartPipes();
+            SendCustomEventDelayedSeconds(nameof(StartPipes), 2.0f);
             Interval = IntervalStored;
         }
 
