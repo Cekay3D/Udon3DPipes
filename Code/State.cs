@@ -203,7 +203,7 @@ namespace Cekay.Pipes
 
         private void Wait()
         {
-            SendCustomEventDelayedSeconds("StepAll", Interval);
+            SendCustomEventDelayedSeconds(nameof(StepAll), Interval);
         }
 
         public void SetList(Vector3 incoming)
@@ -251,7 +251,7 @@ namespace Cekay.Pipes
 
             SetFade();
 
-            SendCustomEventDelayedSeconds(nameof(StartPipes), 2.0f);
+            SendCustomEventDelayedSeconds(nameof(StartPipes), 1.0f);
             Interval = IntervalStored;
         }
 
